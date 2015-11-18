@@ -12,6 +12,8 @@ import SpriteKit
     A container for SKActions and the nodes they should run on. Also manages the timing function that allows SKActions to be skipped. To use a CKAction, it must be added to a CKSequence, which is then controlled by a CKCutscene.
  
     - note: From a technical perspective, this imlementation is required because a bool must be set as a member variable of the SKAction. The `timingFunc` uses that state to determine when to skip an action.
+ 
+    - precondition: If you are adding a child to `node` with a `runBlock`, you can name the child "CKActionObject" and it will automatically be removed when the action has finished.
 */
 public class CKAction {
     
@@ -19,7 +21,7 @@ public class CKAction {
     private var finishEarly : Bool = false
     
     /// Node that should run the action
-    private var node : SKNode
+    internal var node : SKNode
     
     /// The SKAction to run
     internal var action : SKAction
@@ -45,8 +47,15 @@ public class CKAction {
     /// Trigger runAction on the SKAction.
     internal func process(callback:()->()) {
         self.node.runAction(action) {
+            self.cleanup()
             callback()
         }
+    }
+    
+    /// Will remove nodes from parent with the name of "CKActionObject".
+    /// - note: This is utility for `SKAction.runBlock` where a node is added that should be removed at the end of the sequence. Because this use case is so common, it seemed appropriate to make part of the core.
+    internal func cleanup() {
+        self.node.childNodeWithName("CKActionObject")?.removeFromParent()
     }
     
     /// Skip to the end of the action.

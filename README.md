@@ -28,6 +28,11 @@ Fortunately, there are more benefits to this approach. Among them are:
 
 To dive in, start by looking at [CKCutscene](http://veeneck.github.io/CutsceneKit/Classes/CKCutscene.html) and then you can begin constructing a [CKSequence](http://veeneck.github.io/CutsceneKit/Classes/CKSequence.html)
 
+## Creating Custom CKActions
+
+There is a lot of power in extending CKAction to create reusable cutscene features. Included in this framework is [CKDialogueAction](http://veeneck.github.io/CutsceneKit/Classes/CKDialogueAction.html) which manages groups of text in the cutscene. View the source code of that file as a starting reference.
+
+
 ## Status
 
 Not ready for use.

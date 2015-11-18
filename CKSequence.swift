@@ -29,7 +29,7 @@ public class CKSequence {
     /// Store the actions that belong to this sequence.
     private var actions = [CKAction]()
     
-    // MARK: Initilizing a CKSequence
+    // MARK: Initializing a CKSequence
     
     /**
         Initialize with CKAction objects. A CKSequence without actions will not do anything.
