@@ -8,9 +8,11 @@
 
 import SpriteKit
 
+/**
+    An individual action to run as part of a CKSequence.
+*/
 public class CKAction : SKNode {
     
-
     var delay : Double = 0
     
     var finishEarly : Bool = false

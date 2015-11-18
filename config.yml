@@ -2,7 +2,7 @@ output: /Users/ryancampbell/Documents/Games/veeneck.github.io/CutsceneKit
 author_name: "Ryan Campbell"
 author_url: "http://battleofbrothers.com"
 hide_documentation_coverage: yes
-min_acl: internal
+min_acl: public
 github_url: "https://github.com/veeneck/CutsceneKit"
 root_url: "http://veeneck.github.io/CutsceneKit"
 module_name: CutsceneKit

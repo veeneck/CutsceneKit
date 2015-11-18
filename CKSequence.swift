@@ -8,6 +8,9 @@
 
 import SpriteKit
 
+/**
+    A collection of CKAction objects to run during a CKCutscene.
+*/
 public class CKSequence {
     
     var actions = [CKAction]()
