@@ -19,11 +19,14 @@ The main goal of CKCutscene is to provide playback control of SKActions. Here is
         print("playback complete")
     }
 
-The code above will move two unrelated nodes (`nodeA` and `nodeB`). Each will move at their own speed / duration, and the callback will be called when the action with the lonest duration has finished. Think of it as SKAction.group() on different nodes. This first benefit is nice, but it's worth noting that there is a workaround using [`SKAction.runAction(_:onChildWithName:)`](https://developer.apple.com/library/prerelease/mac/documentation/SpriteKit/Reference/SKAction_Ref/index.html#//apple_ref/occ/clm/SKAction/runAction:onChildWithName:) along with a `waitForDuration`.
+The code above will move two unrelated nodes (`nodeA` and `nodeB`). Each will move at their own speed / duration, and the callback will be called when the action with the longest duration has finished. Think of it as `SKAction.group()` on different nodes. This first benefit is nice, but it's worth noting that there is a workaround using [`SKAction.runAction(_:onChildWithName:)`](https://developer.apple.com/library/prerelease/mac/documentation/SpriteKit/Reference/SKAction_Ref/index.html#//apple_ref/occ/clm/SKAction/runAction:onChildWithName:) along with a `waitForDuration`.
 
 Fortunately, there are more benefits to this approach. Among them are:
 
-- Convenient a
+- Allows for all actions to be skipped to the end. This does not cancel the action -- it actually finishes it instantly.
+- Allows for flags like `skipable` and `autoplay` to be applied to groups of actions. This enables sequences that can be paused and controlled by user input.
+
+To dive in, start by looking at [CKCutscene](http://veeneck.github.io/CutsceneKit/Classes/CKCutscene.html) and then you can begin constructing a [CKSequence](http://veeneck.github.io/CutsceneKit/Classes/CKSequence.html)
 
 ## Status
 
