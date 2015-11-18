@@ -8,6 +8,9 @@
 
 import SpriteKit
 
+/**
+    Post commit
+*/
 public class CKCutscene {
     
     var sequences = [CKSequence]()
