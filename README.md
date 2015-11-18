@@ -8,3 +8,11 @@ CutsceneKit is a SpriteKit dependent framework with the goal of providing two co
 ## Status
 
 Currently in development and not safe for reuse.
+
+## Documentation
+
+Docs are located at [veeneck.github.io/CutsceneKit](http://veeneck.github.io/CutsceneKit) and are generated with [Jazzy](https://github.com/Realm/jazzy). The config file for the documentation is in the project as `config.yml`. Docs can be generated using:
+
+    jazzy --config {PATH_TO_REPOSITORY}/CutsceneKit/CutsceneKit/config.yml
+
+**Note**: The output in the `config.yml` is hard coded to one computer. Edit the file and update the `output` flag to a valid location.
