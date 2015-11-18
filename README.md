@@ -7,6 +7,8 @@ CutsceneKit is a SpriteKit dependent framework with the goal of providing two co
 
 ## Status
 
+Not ready for use.
+
 Repository is public and may be of use, but it is not supported as an open source project. Future changes could be breaking.
 
 ## Documentation

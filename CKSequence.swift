@@ -2,76 +2,72 @@
 //  CKSequence.swift
 //  CutsceneKit
 //
-//  Created by Ryan Campbell on 11/17/15.
+//  Created by Ryan Campbell on 11/18/15.
 //  Copyright © 2015 Phalanx Studios. All rights reserved.
 //
 
 import SpriteKit
 
 /**
-    A collection of CKAction objects to run during a CKCutscene.
+    A collection of CKAction objects that can be run together. For example, imagine two different nodes that you want to move at the same time. More importantly, you want them to be skippable actions. This class will manage the two independent actions as a group to make sure they work in coordination with one another.
 */
 public class CKSequence {
     
-    var actions = [CKAction]()
+    /// Store the actions that belong to this sequence.
+    private var actions = [CKAction]()
     
-    var actionIndex : Int = 0
+    // MARK: Initilizing a CKSequence
     
-    var callbackIndex : Int = 0
-        
-    var running : Bool = true
-    
-    let targetNode : SKNode
-    
-    public init(targetNode:SKNode) {
-        self.targetNode = targetNode
+    public init(actions:[CKAction]) {
+        self.actions += actions
     }
     
-    func run(callback:()->()) {
-        if(self.running == true) {
-            
-            var activeCallback : ()->() = {}
-            if(self.actionIndex == self.callbackIndex) {
+    // MARK: Adding actions
+    
+    public func addActions(actions:[CKAction]) {
+        self.actions += actions
+    }
+    
+    // MARK: Processing the CKSequence
+    
+    internal func run(callback:()->()) {
+        
+        /// Determine longest duration as that is when the final callback should be triggered.
+        /// Active callback will be empty except for that one CKAction
+        let containerWithLongestDuration = self.determineLongestAction()
+        var activeCallback : ()->()
+        
+        /// Loop over each action and run it. Only assign true callback to action with longest duration.
+        for (index, container) in self.actions.enumerate() {
+            if index == containerWithLongestDuration {
                 activeCallback = callback
             }
+            else {
+                activeCallback = {}
+            }
             
-            if self.actions.count > self.actionIndex {
-                
-                let nextAction = self.actions[actionIndex]
-                self.targetNode.addChild(nextAction)
-                nextAction.process(activeCallback)
-                self.actionIndex += 1
-                
-                if self.actions.count >= self.actionIndex {
-                    self.delay(nextAction.delay, closure: {
-                        self.run(callback)
-                    })
-                }
-                
+            container.process(activeCallback)
+        }
+    }
+    
+    // MARK: Skipping a Sequence
+    
+    internal func skip() {
+        for container in self.actions {
+            container.finish()
+        }
+    }
+    
+    // MARK: Utility
+    
+    private func determineLongestAction() -> Int {
+        var ret : Int = 0
+        for (index, container) in self.actions.enumerate() {
+            if container.action.duration > self.actions[ret].action.duration {
+                ret = index
             }
         }
-    }
-    
-    func skip() {
-        self.running = false
-        for action in self.actions {
-            action.finish()
-        }
-    }
-    
-    func finish() {
-        for action in self.actions {
-            action.removeFromParent()
-        }
-    }
-    
-    func delay(delay:Double, closure:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), closure)
+        return ret
     }
     
 }

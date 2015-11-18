@@ -9,47 +9,57 @@
 import SpriteKit
 
 /**
-    An individual action to run as part of a CKSequence.
+    Sublcass of SKAction that allows an action to be skipped to the end.
+ 
+    - note: From a technical perspective, this imlementation is required because a bool must be set as a member variable of the SKAction. The `timingFunc` uses that state to determine when to skip an action.
 */
-public class CKAction : SKNode {
+public class CKAction {
     
-    var delay : Double = 0
+    /// Internal state of the action
+    private var finishEarly : Bool = false
     
-    var finishEarly : Bool = false
+    /// Node that should run the action
+    private var node : SKNode
     
-    public override init() {
-        super.init()
+    /// The SKAction to run
+    internal var action : SKAction
+    
+    /// Desired timing function
+    private var desiredTiming : SKActionTimingFunction?
+    
+    /// Initilize an SKAction and override the timing function to allow skip functionality.
+    public init(node:SKNode, action:SKAction, desiredTiming:SKActionTimingFunction? = nil) {
+        self.node = node
+        self.action = action
+        self.action.speed = 1
+        self.desiredTiming = desiredTiming
+        self.action.timingFunction = self.timingFunc
     }
     
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    internal func process(callback:()->()) {
+        self.node.runAction(action) {
+            callback()
+        }
     }
     
-    // MARK: Running an Action
-    
-    func process(callback:()->()) {
-        // override this
-    }
-    
-    func finish() {
+    /// Skip to the end of the action.
+    internal func finish() {
         self.finishEarly = true
     }
     
-    func timingFunc(time:Float) -> Float {
+    /// Timing function to set on the action which will return normal time unless finish early is set to true.
+    private func timingFunc(time:Float) -> Float {
         if(self.finishEarly) {
             return 1.0
         }
         else {
-            return time
+            if let desired = self.desiredTiming {
+                return desired(time)
+            }
+            else {
+                return time
+            }
         }
     }
-    
-    func setTimingFunctionsForActions(actions:Array<SKAction>) -> Array<SKAction> {
-        for action in actions {
-            action.timingFunction = self.timingFunc
-        }
-        return actions
-    }
-        
     
 }
