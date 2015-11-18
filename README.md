@@ -2,8 +2,28 @@
 
 CutsceneKit is a SpriteKit dependent framework with the goal of providing two core pieces of functionality.
 
-- Provide an event sequence that can run any group of SKActions and allow them to be skipped.
+- Provide an event sequence that can run any group of SKActions on different nodes and allow them to be skipped.
 - Add timed hooks to SKVideoNodes that allows them to be skimmed, skipped, and have dialogue overlay.
+
+## Getting Started with CKCutscene
+
+The main goal of CKCutscene is to provide playback control of SKActions. Here is a basic example:
+
+    self.cutscene = CKCutscene()
+    let sequence = CKSequence(actions: [
+        CKAction(node: nodeA, action: SKAction.moveToX(500, duration: 5)),
+        CKAction(node: nodeB, action: SKAction.moveToX(500, duration: 3))
+    ])
+    self.cutscene.addSequences([sequence])
+    self.cutscene.begin() {
+        print("playback complete")
+    }
+
+The code above will move two unrelated nodes (`nodeA` and `nodeB`). Each will move at their own speed / duration, and the callback will be called when the action with the lonest duration has finished. Think of it as SKAction.group() on different nodes. This first benefit is nice, but it's worth noting that there is a workaround using [`SKAction.runAction(_:onChildWithName:)`](https://developer.apple.com/library/prerelease/mac/documentation/SpriteKit/Reference/SKAction_Ref/index.html#//apple_ref/occ/clm/SKAction/runAction:onChildWithName:) along with a `waitForDuration`.
+
+Fortunately, there are more benefits to this approach. Among them are:
+
+- Convenient a
 
 ## Status
 

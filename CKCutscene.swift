@@ -22,34 +22,32 @@ public class CKCutscene {
     private var currentSequence : CKSequence?
 
 
-    
     // MARK: Initializing a CKCutscene
     
     /** 
     Empty initializer to retain object for future use.
     
-    - warning: Without any actions, CKCutscene has no functionality.
+    - warning: Without any sequences, CKCutscene has no functionality.
     */
     public init() {
 
     }
     
     /**
-    Initialize with actions pre assigned.
+    Initialize with sequences pre assigned.
 
-     - parameter root: Base node that actions will be run off of.
-     - parameter actions: Default actions to start with.
+     - parameter sequences: Default sequences to start with.
     */
     public init(sequences:[CKSequence]) {
         self.sequences += sequences
     }
     
-    // MARK: Adding Actions
+    // MARK: Adding Sequences
     
     /**
-    Append a group of actions onto the end of the current action queue.
+    Append a group of sequences onto the end of the current sequence queue.
     
-    - parameter actions: CKSequence objects to append.
+    - parameter sequences: CKSequence objects to append.
     */
     public func addSequences(sequences:[CKSequence]) {
         self.sequences += sequences
@@ -59,7 +57,7 @@ public class CKCutscene {
     
     /** 
     Begin playing through each CKSequence until completion. Once a CKSequence has been completed,
-    it will be premanently removed from the CKCutscene.
+    it will be permanently removed from the CKCutscene.
     
     - parameter completion: Callback to execute once all sequences have been completed.
     
@@ -94,7 +92,7 @@ public class CKCutscene {
     
     // MARK: Skipping an Action
     
-    /// Force the current running action to skip, and automatically start playing the next action if applicable.
+    /// Force the current running CKSequence to skip, and automatically start playing the next CKSequence if applicable.
     public func skipCurrentSequence() {
         self.currentSequence?.skip()
     }

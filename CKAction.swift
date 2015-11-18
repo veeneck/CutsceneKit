@@ -9,7 +9,7 @@
 import SpriteKit
 
 /**
-    Sublcass of SKAction that allows an action to be skipped to the end.
+    A container for SKActions and the nodes they should run on. Also manages the timing function that allows SKActions to be skipped. To use a CKAction, it must be added to a CKSequence, which is then controlled by a CKCutscene.
  
     - note: From a technical perspective, this imlementation is required because a bool must be set as a member variable of the SKAction. The `timingFunc` uses that state to determine when to skip an action.
 */
@@ -27,7 +27,13 @@ public class CKAction {
     /// Desired timing function
     private var desiredTiming : SKActionTimingFunction?
     
-    /// Initilize an SKAction and override the timing function to allow skip functionality.
+    /** 
+    Initilize an CKAction and override the timing function to allow skip functionality.
+
+    - parameter node: The node to run the action on.
+    - parameter action: The SKAction to run.
+    - parameter desiredTiming: `SKActionTimingFunction` to assign to the `action`. This is the only way to control playback speed.
+    */
     public init(node:SKNode, action:SKAction, desiredTiming:SKActionTimingFunction? = nil) {
         self.node = node
         self.action = action
@@ -36,6 +42,7 @@ public class CKAction {
         self.action.timingFunction = self.timingFunc
     }
     
+    /// Trigger runAction on the SKAction.
     internal func process(callback:()->()) {
         self.node.runAction(action) {
             callback()
