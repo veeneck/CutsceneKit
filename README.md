@@ -32,6 +32,18 @@ To dive in, start by looking at [CKCutscene](http://veeneck.github.io/CutsceneKi
 
 There is a lot of power in extending CKAction to create reusable cutscene features. Included in this framework is [CKDialogueAction](http://veeneck.github.io/CutsceneKit/Classes/CKDialogueAction.html) which manages groups of text in the cutscene. View the source code of that file as a starting reference.
 
+## Working with CKVideoNode
+
+Instead of using nodes and the in game engine to show a cutscene, it may be desirable to use a video instead. The goal of [CKVideoNode](http://veeneck.github.io/CutsceneKit/Classes/CKVideoNode.html) is to make it convenient to combine AVPlayer with SKVideoNode and to add additional functionality. A basic example would be:
+
+    self.videoPlayer = CKVideoNode(name: "MovieName", ext: "mov")
+    self.videoPlayer.registerCompletionCallback({
+        self.videoFinishedPlaying()
+    })
+    self.addChild(self.videoPlayer)
+    self.videoPlayer.play()
+
+The code above provides completion callback to the video. Additional methods are exposed like `skipToEnd` which would jump to the end of a video and cleanup, or `addTimingHook` which will execute a block of code at a given timestamp.
 
 ## Status
 
