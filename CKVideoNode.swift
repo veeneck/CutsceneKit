@@ -76,7 +76,7 @@ public class CKVideoNode : SKVideoNode {
     }
     
     /// Private function to handle cleanup of player and process callback
-    private func playerDidFinishPlaying(note: NSNotification?) {
+    public func playerDidFinishPlaying(note: NSNotification?) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         self.callback()
     }
