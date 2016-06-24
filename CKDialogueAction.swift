@@ -33,7 +33,7 @@ public class CKDialogueAction : CKAction {
         label.name = "CKActionObject"
         super.init(
             node: node,
-            action: CKDialogueAction.buildActionForLabel(label, parent: node, duration: duration))
+            action: CKDialogueAction.buildActionForLabel(label: label, parent: node, duration: duration))
     }
     
     /**
@@ -45,7 +45,7 @@ public class CKDialogueAction : CKAction {
      - parameter text: The string for the label.
      */
     public convenience init(node:SKNode, position:CGPoint, duration:Double, text:String) {
-        let label = CKDialogueAction.createSKLabelNode(text, position: position)
+        let label = CKDialogueAction.createSKLabelNode(text: text, position: position)
         self.init(node:node, duration:duration, label:label)
     }
     
@@ -55,8 +55,8 @@ public class CKDialogueAction : CKAction {
         label.text = text
         label.fontSize = 40
         label.zPosition = 20000
-        label.fontColor = SKColor.whiteColor()
-        label.horizontalAlignmentMode = .Center
+        label.fontColor = SKColor.white()
+        label.horizontalAlignmentMode = .center
         label.position = position
         return label
     }
@@ -64,8 +64,8 @@ public class CKDialogueAction : CKAction {
     /// Factory method to create the SKAction that will add the SKLabelNode to the target node, and wait for the set duration.
     private class func buildActionForLabel(label:SKLabelNode, parent:SKNode, duration:Double) -> SKAction {
         return SKAction.group([
-            SKAction.waitForDuration(duration),
-            SKAction.runBlock({
+            SKAction.wait(forDuration: duration),
+            SKAction.run({
                 parent.addChild(label)
             })
         ])

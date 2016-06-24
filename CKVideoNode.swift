@@ -34,10 +34,10 @@ public class CKVideoNode : SKVideoNode {
     - parameter ext: The file extension. I.e.: "mov"
     */
     public init(name:String, ext:String) {
-        let av =  CKVideoNode.createAVVideoPlayer(name, ext: ext)
+        let av =  CKVideoNode.createAVVideoPlayer(name: name, ext: ext)
         self.player = av.player
         self.playerItem = av.item
-        super.init(AVPlayer:self.player)
+        super.init(avPlayer:self.player)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -49,8 +49,8 @@ public class CKVideoNode : SKVideoNode {
     /// Run a block of code at the provided timestamp.
     public func addTimingHook(timestamp:Double, block:()->()) {
         let cmTime  = CMTimeMake(Int64(timestamp), 1)
-        let cmValue = NSValue(CMTime: cmTime)
-        self.player.addBoundaryTimeObserverForTimes([cmValue], queue: nil, usingBlock: block)
+        let cmValue = NSValue(time:cmTime)
+        self.player.addBoundaryTimeObserver(forTimes: [cmValue], queue: nil, using: block)
     }
     
 
@@ -62,22 +62,22 @@ public class CKVideoNode : SKVideoNode {
     - parameter callback: A function to be called when the player finishes playing.
     */
     public func registerCompletionCallback(callback:()->()) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default().removeObserver(self)
+        NotificationCenter.default().addObserver(self,
             selector: "playerDidFinishPlaying:",
-            name: AVPlayerItemDidPlayToEndTimeNotification,
+            name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
             object: self.playerItem)
         self.callback = callback
     }
     
     /// Utility to function to jump the player to the end of the video. Preferred way to "skip" a video as it will route through appopriate cleanup functions.
     public func skipToEnd() {
-        self.playerDidFinishPlaying(nil)
+        self.playerDidFinishPlaying(note: nil)
     }
     
     /// Private function to handle cleanup of player and process callback
     public func playerDidFinishPlaying(note: NSNotification?) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default().removeObserver(self)
         self.callback()
     }
     
@@ -86,8 +86,8 @@ public class CKVideoNode : SKVideoNode {
     /// Create an AVPlayer given a file name. Example parameters are "MovieName" and "mov".
     /// - returns: Both the player and playerItem to give full control. For example, playerItem is used for NotificationCenter while player can control playback.
     private class func createAVVideoPlayer(name:String, ext:String) -> (player:AVPlayer, item:AVPlayerItem) {
-        let url = NSBundle.mainBundle().URLForResource("\(name)", withExtension: ext)
-        let playerItem = AVPlayerItem(URL: url!)
+        let url = Bundle.main().urlForResource("\(name)", withExtension: ext)
+        let playerItem = AVPlayerItem(url: url!)
         let player=AVPlayer(playerItem: playerItem)
         return (player, playerItem)
     }

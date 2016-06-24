@@ -46,7 +46,7 @@ public class CKAction {
     
     /// Trigger runAction on the SKAction.
     internal func process(callback:()->()) {
-        self.node.runAction(action) {
+        self.node.run(action) {
             self.cleanup()
             callback()
         }
@@ -55,7 +55,7 @@ public class CKAction {
     /// Will remove nodes from parent with the name of "CKActionObject".
     /// - note: This is utility for `SKAction.runBlock` where a node is added that should be removed at the end of the sequence. Because this use case is so common, it seemed appropriate to make part of the core.
     internal func cleanup() {
-        self.node.childNodeWithName("CKActionObject")?.removeFromParent()
+        self.node.childNode(withName: "CKActionObject")?.removeFromParent()
     }
     
     /// Skip to the end of the action.

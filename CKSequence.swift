@@ -60,7 +60,7 @@ public class CKSequence {
         var activeCallback : ()->()
         
         /// Loop over each action and run it. Only assign true callback to action with longest duration.
-        for (index, container) in self.actions.enumerate() {
+        for (index, container) in self.actions.enumerated() {
             if index == containerWithLongestDuration {
                 activeCallback = callback
             }
@@ -68,7 +68,7 @@ public class CKSequence {
                 activeCallback = {}
             }
             
-            container.process(activeCallback)
+            container.process(callback: activeCallback)
         }
     }
     
@@ -86,7 +86,7 @@ public class CKSequence {
     /// Return the action with the longest duration.
     private func determineLongestAction() -> Int {
         var ret : Int = 0
-        for (index, container) in self.actions.enumerate() {
+        for (index, container) in self.actions.enumerated() {
             if container.action.duration > self.actions[ret].action.duration {
                 ret = index
             }
