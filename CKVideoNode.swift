@@ -62,9 +62,9 @@ public class CKVideoNode : SKVideoNode {
     - parameter callback: A function to be called when the player finishes playing.
     */
     public func registerCompletionCallback(callback:()->()) {
-        NotificationCenter.default().removeObserver(self)
-        NotificationCenter.default().addObserver(self,
-            selector: "playerDidFinishPlaying:",
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(self.playerDidFinishPlaying),
             name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
             object: self.playerItem)
         self.callback = callback
@@ -77,7 +77,7 @@ public class CKVideoNode : SKVideoNode {
     
     /// Private function to handle cleanup of player and process callback
     public func playerDidFinishPlaying(note: NSNotification?) {
-        NotificationCenter.default().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         self.callback()
     }
     
@@ -86,7 +86,7 @@ public class CKVideoNode : SKVideoNode {
     /// Create an AVPlayer given a file name. Example parameters are "MovieName" and "mov".
     /// - returns: Both the player and playerItem to give full control. For example, playerItem is used for NotificationCenter while player can control playback.
     private class func createAVVideoPlayer(name:String, ext:String) -> (player:AVPlayer, item:AVPlayerItem) {
-        let url = Bundle.main().urlForResource("\(name)", withExtension: ext)
+        let url = Bundle.main.url(forResource: "\(name)", withExtension: ext)
         let playerItem = AVPlayerItem(url: url!)
         let player=AVPlayer(playerItem: playerItem)
         return (player, playerItem)

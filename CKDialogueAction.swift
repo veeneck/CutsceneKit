@@ -55,7 +55,7 @@ public class CKDialogueAction : CKAction {
         label.text = text
         label.fontSize = 40
         label.zPosition = 20000
-        label.fontColor = SKColor.white()
+        label.fontColor = SKColor.white
         label.horizontalAlignmentMode = .center
         label.position = position
         return label
