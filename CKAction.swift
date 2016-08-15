@@ -45,7 +45,7 @@ public class CKAction {
     }
     
     /// Trigger runAction on the SKAction.
-    internal func process(callback:()->()) {
+    internal func process(callback:@escaping ()->()) {
         self.node.run(action) {
             self.cleanup()
             callback()

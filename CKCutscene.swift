@@ -63,12 +63,12 @@ public class CKCutscene {
     
     - note: There is no way to pause or stop playback. You can control this by only adding CKSequences that you wish to execute now, and delay adding others.
     */
-    public func begin(completion:()->()) {
+    public func begin(completion:@escaping ()->()) {
         self.playNextAction(completion: completion)
     }
     
     /// Internal method that `begin()` wraps around. Called recursively.
-    private func playNextAction(completion:()->()) {
+    private func playNextAction(completion:@escaping()->()) {
         if self.sequences.count > 0 {
             let next = self.sequences[0]
             self.currentSequence = next
@@ -82,7 +82,7 @@ public class CKCutscene {
     }
     
     /// When a sequence has been completed, this will be called internally to cleanup and remove the sequence. The next CKSequence will be played automatically.
-    private func prepForNextSequence(completion:()->()) {
+    private func prepForNextSequence(completion:@escaping ()->()) {
         self.currentSequence = nil
         if self.sequences.count > 0 {
             self.sequences.remove(at: 0)

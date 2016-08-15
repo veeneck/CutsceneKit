@@ -52,7 +52,7 @@ public class CKSequence {
 
     - returns: The `callback` will be triggered when the action with the longest duration completes.
     */
-    internal func run(callback:()->()) {
+    internal func run(callback:@escaping ()->()) {
         
         /// Determine longest duration as that is when the final callback should be triggered.
         /// Active callback will be empty except for that one CKAction

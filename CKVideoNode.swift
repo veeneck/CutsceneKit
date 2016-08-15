@@ -47,7 +47,7 @@ public class CKVideoNode : SKVideoNode {
     // MARK: Timing Hooks
     
     /// Run a block of code at the provided timestamp.
-    public func addTimingHook(timestamp:Double, block:()->()) {
+    public func addTimingHook(timestamp:Double, block:@escaping ()->()) {
         let cmTime  = CMTimeMake(Int64(timestamp), 1)
         let cmValue = NSValue(time:cmTime)
         self.player.addBoundaryTimeObserver(forTimes: [cmValue], queue: nil, using: block)
@@ -61,7 +61,7 @@ public class CKVideoNode : SKVideoNode {
     
     - parameter callback: A function to be called when the player finishes playing.
     */
-    public func registerCompletionCallback(callback:()->()) {
+    public func registerCompletionCallback(callback:@escaping ()->()) {
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self,
             selector: #selector(self.playerDidFinishPlaying),
