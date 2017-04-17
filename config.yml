@@ -1,10 +1,11 @@
 output: /Users/ryancampbell/Documents/Games/veeneck.github.io/CutsceneKit
-readme_path: /Users/ryancampbell/Documents/Games/CutsceneKit/CutsceneKit/README.md
-author_name: "Ryan Campbell"
+readme: /Users/ryancampbell/Documents/Games/CutsceneKit/CutsceneKit/README.md
+author: "Ryan Campbell"
 author_url: "http://battleofbrothers.com"
 hide_documentation_coverage: yes
 min_acl: public
 github_url: "https://github.com/veeneck/CutsceneKit"
 root_url: "http://veeneck.github.io/CutsceneKit"
-module_name: CutsceneKit
+module: CutsceneKit
 skip_undocumented: yes
+theme:  /Users/ryancampbell/Documents/Games/veeneck.github.io/Themes
